@@ -71,7 +71,7 @@ ax.axis('off');
 <img width="810" height="827" alt="image" src="https://github.com/user-attachments/assets/09eabcd8-43ae-468a-9290-d34b73c1c85e" />
 
 
-**Notes:** WIP
+**Notes:** Red and green challenges to follow soon.
 
 
 
