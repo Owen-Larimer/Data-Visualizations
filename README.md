@@ -1,5 +1,5 @@
 # Data-Visualizations
-An unrelated list of visualizations and associated code
+A list of unrelated visualizations and associated code.
 
 
 ## Data Sources:
@@ -34,6 +34,108 @@ plt.fill_between(global_fertility['Year'], global_fertility['lower'], global_fer
 
 <img width="1173" height="914" alt="image" src="https://github.com/user-attachments/assets/9ed8230f-e69b-4120-83e5-7f1bf9ec7748" />  
 
-###
+**Notes:** WIP
+
+
+### W.E.B. Du Bois Challenge - 2024 Black Challenge 5:
+
+The data here comes speicifcally from the GitHub page for the Du Bois Figure Challenge, and looks like so:
+<img width="400" height="261" alt="image" src="https://github.com/user-attachments/assets/40a95175-01ef-48c9-808d-15eadc1c64e8" />  
+
+The goal of this project is to recreate one of W.E.B Du Bois' famous figures as closely as possible:
+
+```python
+stacked_bar = (c5.set_index('Category').loc[['Yellow', 'Brown', 'Black']].T)
+
+ax = stacked_bar.plot(kind='bar', stacked=True, color=['gold', '#5C4033', 'black'], legend=True)
+
+# ax.legend(loc='center left');
+
+handles, labels = ax.get_legend_handles_labels() #Found online.
+ax.legend(handles[::-1], labels[::-1], loc='center left', frameon=False)
+
+percentage_values = stacked_bar.iloc[0].values  # Should be [16, 40, 44].
+label_colors = ['black', 'red', 'white']
+
+# Now we add the labels onto the middle of the bars using the proper colors.
+bottom = 0
+for val, txt_color in zip(percentage_values, label_colors):
+    ax.text(x= 0, y= bottom + val / 2, s=f"{val}%", ha='center', va='center', fontweight='bold', color=txt_color)
+    bottom += val
+
+plt.title("Race Amalgamation in Georgia");
+fig.set_facecolor('#D2B48C')
+ax.axis('off');
+
+```
+<img width="810" height="827" alt="image" src="https://github.com/user-attachments/assets/09eabcd8-43ae-468a-9290-d34b73c1c85e" />
+
+
+**Notes:** WIP
+
+
+
+### San Diego Water Supply Origins
+
+This is the recreation of a more complicated figure with the hopes of encoding the data in a much better, more readable way.
+
+This is what the figure originally looked like:
+<img width="1157" height="870" alt="image" src="https://github.com/user-attachments/assets/3dbfc631-94eb-4f49-9419-f8f61a317946" />  
+
+I used that image to create the entire dataset in Excel, then passed it into a pandas dataframe so that it looked like this:
+<img width="1188" height="365" alt="image" src="https://github.com/user-attachments/assets/4a69deb9-ca4c-453f-a1cb-d76f67ed7274" />  
+
+and I pivoted it like so: 
+```python
+pivot_df = fig2.pivot(index='Year',columns='Water_Origins', values='Acre_Feet (Thousands)').fillna(0)
+pivot_df
+```
+To look like this: 
+<img width="2473" height="397" alt="image" src="https://github.com/user-attachments/assets/9b541ca4-c1f7-49b8-bc23-1da448e511a5" />  
+
+And now to create a better figure. I decided a stacked barplot would be best:  
+
+```python
+fig, ax = plt.subplots()
+
+sns.set_palette('Dark2')
+pivot_df.plot(kind="bar", stacked=True, ax=ax, edgecolor="black", linewidth=1)
+
+ax.legend(title="Water Origin", bbox_to_anchor=(1.02, 1), loc="upper left", frameon=False)
+plt.xticks(rotation=40);
+
+for container in ax.containers:
+    labels = [f"{int(v)} TAF" if v > 0 else "" for v in container.datavalues] #STACKED
+    ax.bar_label(container, labels=labels, label_type='center', fontsize=8)
+
+plt.title("San Diego's Water Supply Diversification Throughout the Decades");
+plt.ylabel("Thousands of Acre-Feet of Water")
+plt.grid(axis = 'y')
+
+totals = pivot_df.sum(axis=1)
+
+for i, year in enumerate(pivot_df.index):
+    ax.text(i, totals.loc[year] + 10, f"{int(totals.loc[year])}", ha='center', va='bottom', fontsize=10, fontweight='bold')
+```  
+<img width="1826" height="940" alt="image" src="https://github.com/user-attachments/assets/a5fc3e15-d17e-41aa-8495-96c45969d6eb" /> 
+
+**Notes:** WIP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
