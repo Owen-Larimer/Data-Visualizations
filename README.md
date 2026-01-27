@@ -123,6 +123,49 @@ for i, year in enumerate(pivot_df.index):
 
 
 
+### GDP Growth Percentage Over Time
+
+This was an attempt to recode the data an original figure conveyed. The original figure was a 3d barplot, looking like:
+
+<img width="1037" height="1127" alt="image" src="https://github.com/user-attachments/assets/3061843d-8aa2-4f6b-8182-f5322403f9b4" />  
+
+3d barplots are ultimately not very good at their job. They are difficult to read due to their depth, requiring the viewer to tilt their head in order to glean informaiton. It's a 
+
+The data was read in like so (after being made from scratch in excel): 
+
+```python
+fig3 = pd.read_csv("./DSCI_410_HW3_Data_Fig_3.csv")
+fig3.head()
+```
+To result in: 
+<img width="681" height="385" alt="image" src="https://github.com/user-attachments/assets/dcb088fe-a0e9-4626-a51b-63961854c105" />  
+
+
+
+
+```python
+fig, ax = plt.subplots()
+
+plt.plot(fig3['Year'], fig3['GDP_Growth_EU (%)'], label='EU', linewidth = 5, color='darkblue')
+plt.plot(fig3['Year'], fig3['GDP_Growth_US (%)'], label='US', linewidth = 5, color='darkred')
+
+plt.scatter(fig3['Year'], fig3['GDP_Growth_EU (%)'], edgecolor='black', s=90, color='yellow', zorder = 3, alpha =0.8)
+plt.scatter(fig3['Year'], fig3['GDP_Growth_US (%)'], edgecolor='black', s=90, color='white', zorder = 3, alpha=0.8)
+
+plt.title("GDP Growth Percentage Over Time for US and EU")
+plt.ylabel("Year")
+plt.xlabel("Percent Change")
+plt.grid(axis = 'y')
+plt.legend()
+ax.set_ylim(bottom=min(ax.get_ylim()[0], 0))
+
+for x, y in zip(fig3['Year'], fig3['GDP_Growth_EU (%)']):
+    ax.text(x, y + 0.15, f"{y}", ha='center', va='bottom', fontsize=10, color='grey', fontweight='bold')
+
+for x, y in zip(fig3['Year'], fig3['GDP_Growth_US (%)']):
+    ax.text(x, y + 0.15, f"{y}", ha='center', va='bottom', fontsize=10, color='grey', fontweight='bold')
+```
+
 
 
 
