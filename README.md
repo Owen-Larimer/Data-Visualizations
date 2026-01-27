@@ -129,7 +129,7 @@ This was an attempt to recode the data an original figure conveyed. The original
 
 <img width="1037" height="1127" alt="image" src="https://github.com/user-attachments/assets/3061843d-8aa2-4f6b-8182-f5322403f9b4" />  
 
-3d barplots are ultimately not very good at their job. They are difficult to read due to their depth, requiring the viewer to tilt their head in order to glean informaiton. It's a 
+3d barplots are ultimately not very good at their job. They are difficult to read due to their depth, requiring the viewer to tilt their head in order to glean informaiton. It's also very difficult to compare intra-group trends against each other since the angle at which we have to view the 3d chart prevents the two groups from lining up perfectly.
 
 The data was read in like so (after being made from scratch in excel): 
 
@@ -140,7 +140,7 @@ fig3.head()
 To result in: 
 <img width="681" height="385" alt="image" src="https://github.com/user-attachments/assets/dcb088fe-a0e9-4626-a51b-63961854c105" />  
 
-
+I decided to get rid of the 3d aspect altogether, instead opting for a line chart that would clearly show both regions' GDP growth trends over time:
 
 
 ```python
@@ -165,6 +165,14 @@ for x, y in zip(fig3['Year'], fig3['GDP_Growth_EU (%)']):
 for x, y in zip(fig3['Year'], fig3['GDP_Growth_US (%)']):
     ax.text(x, y + 0.15, f"{y}", ha='center', va='bottom', fontsize=10, color='grey', fontweight='bold')
 ```
+
+<img width="1109" height="908" alt="image" src="https://github.com/user-attachments/assets/27b61165-564d-42b6-b104-af68dcc27d03" />  
+
+Though less visually impressive, this new figure eliminates all drawbacks of the original 3d barplot, as well as highly maximizes the data to ink ratio.
+
+
+### Confusion Matrix
+
 
 
 
