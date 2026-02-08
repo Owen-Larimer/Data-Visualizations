@@ -174,6 +174,12 @@ Though less visually impressive, this new figure eliminates all drawbacks of the
 ### Confusion Matrix
 
 
+### Vectorized Coffee Visualization Using Inkscape
+
+
+
+
+
 
 
 
