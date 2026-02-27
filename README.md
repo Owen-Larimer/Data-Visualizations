@@ -174,7 +174,91 @@ Though less visually impressive, this new figure eliminates all drawbacks of the
 ### Confusion Matrix
 
 
-### Vectorized Coffee Visualization Using Inkscape
+### Vectorized Coffee Visualization Using Inkscape:
+This project consisted of taking a simple plot made in Matplotlib and Seaborn, importing it into Inkscape or Adobe Illustrator (as an SVG file type), and improving the figure within that program. Inkscape provides the ability to change the nitty gritty details of a figure that would be either difficult or impossible to change in a standard python environment.
+
+Loaded a custom-made 
+```python
+coffees = pd.read_csv("./Coffee_Drinks_Dataset.csv")
+coffees = coffees.set_index("Drink Type")
+coffees
+```
+Returns:
+<img width="1880" height="927" alt="image" src="https://github.com/user-attachments/assets/3242981d-0f46-4e56-9ee3-5a59655e7333" />  
+
+Then we create our initial figure. I first had an idea to make a bar chart and then turn the bars into "levels of ingredients" in inkscape, surrounding the bars with mug/cup-like images. Here's the initial bar chart:
+
+```python
+ingredients = coffees.columns
+
+colors = {
+    "Espresso (ml)": "#4b2e2b",       # dark brown
+    "Hot Water (ml)": "#87CEEB",      # light blue
+    "Steamed Milk (ml)": "#fffdd0",   # creamy white
+    "Foamed Milk (ml)": "#f5f5f5",    # white foam
+    "Chcolate (ml)": "#7b3f00",       # chocolate brown
+    "Whipped Cream (ml)": "#ffffff", # white
+    "Half & Half (ml)": "#f2e5d7"     # cream
+}
+
+fig, ax = plt.subplots(figsize=(15,6))
+
+bottom = np.zeros(len(coffees))
+x = np.arange(len(coffees)) * 1.5
+
+
+# Plot stacked bars
+for ingredient in ingredients:
+    values = coffees[ingredient]
+    bars = ax.bar(x, values, bottom=bottom, width=1.3,
+                   label=ingredient.replace(" (ml)", ""),
+                   color=colors[ingredient],
+                   edgecolor="black")
+
+    # Add labels inside bar segments
+    for bar, val, bot in zip(bars, values, bottom):
+        if val > 0:
+            ax.text(bar.get_x() + bar.get_width()/2,
+                    bot + val/2,
+                    f"{int(val)} ml",
+                    ha='center', va='center', fontsize=9)
+
+    bottom += values
+
+# Formatting
+ax.set_ylabel('Milliliters (ml)')
+ax.set_title("Coffee Drink Ingredient Composition")
+ax.set_xticks(x)
+ax.set_xticklabels(coffees.index, rotation=45, ha="right")
+ax.legend(title="Ingredients", bbox_to_anchor=(1.02, 1), loc="upper left")
+plt.ylim(top=370)
+
+plt.tight_layout()
+plt.show()
+```
+
+Which resulted in the following: 
+
+<img width="1979" height="780" alt="image" src="https://github.com/user-attachments/assets/1b2ce31c-69a2-4e07-8a59-eeb479afe106" />
+
+
+This is a nice looking bar chart. It accomplishes the purpose of showing various coffee drink composition. It "gets the job done" in a sense. This might be appropriate to show on a powerpoint in a meeting just to allow people to reference. If we wanted the figure to actually *look* appealing, though, we can do some work in inkscape. Make sure to save your figure in a vectorized format (such as PDF), and we can put it into Inkscape:
+
+...
+
+...
+
+Inkscape has a ton of useful tools we can use to improve our figure, including, but not limited to: changing the size of our figure's borders, changing the background color and texture, font adjustments, images additions, and color improvements.
+
+...
+
+And we end up with:
+
+<img width="2688" height="1282" alt="image" src="https://github.com/user-attachments/assets/d46f8a5c-60fc-4614-b1b5-5ec020aa9000" />  
+
+Now THAT'S a visualization. After I got the coffee idea going I quickly found how appealing it would look to model the figure after a chalkboard sign one might see in or out front of a coffee shop. 
+
+By far the most difficult part of this was getting the art decorations on the chalkboard. See, most transparent images come with blacked lines, since we primarily view them on a white background. In my case the chalkboard is particularly dark, and I wanted the white chalk-looking effect. One would think there would be an easy way to invert the colors of these, but I found no such easy tool. Instead I had to use the line-recognition tool Inkscape provides to pull out the actual subject part (in cases of non-transparent images) of the image and lighten. This ended up creating this very grainy effect on some of the subjects, which ordinarily might be a problem, but that actually worked for me in helping to create a chalky texture.
 
 
 
